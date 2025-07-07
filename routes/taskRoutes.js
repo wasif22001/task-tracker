@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/taskController");
+const authorizeHeader = require("../middleware/auth");
 
 /**
  * @swagger
@@ -40,7 +41,7 @@ const taskController = require("../controllers/taskController");
  *       400:
  *         description: Invalid input
  */
-router.post("/", taskController.createTask);
+router.post("/", authorizeHeader, taskController.createTask);
 
 /**
  * @swagger
@@ -117,7 +118,7 @@ router.get("/:id", taskController.getTaskById);
  *       404:
  *         description: Task not found
  */
-router.put("/:id", taskController.updateTask);
+router.put("/:id", authorizeHeader, taskController.updateTask);
 
 /**
  * @swagger
@@ -138,6 +139,6 @@ router.put("/:id", taskController.updateTask);
  *       404:
  *         description: Task not found
  */
-router.delete("/:id", taskController.deleteTask);
+router.delete("/:id", authorizeHeader, taskController.deleteTask);
 
 module.exports = router;
