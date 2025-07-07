@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/taskController");
 const authorizeHeader = require("../middleware/auth");
+const rateLimiter = require("../middleware/customRateLimiter");
 
 /**
  * @swagger
@@ -59,7 +60,7 @@ router.post("/", authorizeHeader, taskController.createTask);
  *               items:
  *                 $ref: '#/components/schemas/Task'
  */
-router.get("/", taskController.getAllTasks);
+router.get("/", rateLimiter, taskController.getAllTasks);
 
 /**
  * @swagger
