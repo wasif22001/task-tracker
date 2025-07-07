@@ -16,7 +16,13 @@ const createTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find().sort({ createdAt: -1 });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const tasks = await Task.find()
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
     res
       .status(200)
       .json({ message: "Tasks fetched successfully", tasks: tasks });
