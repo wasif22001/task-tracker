@@ -30,7 +30,8 @@ const getAllTasks = async (req, res) => {
 const getTaskById = async (req, res) => {
   const task = await Task.findById(req.params.id);
   if (!task) {
-    return res.status(404).json({ message: "Task not found" });
+    res.status(404);
+    throw new Error("Task not found");
   }
 };
 
@@ -53,7 +54,8 @@ const updateTask = async (req, res) => {
 const deleteTask = async (req, res) => {
   const task = await Task.findByIdAndDelete(req.params.id);
   if (!task) {
-    return res.status(404).json({ message: "Task not found" });
+    res.status(404);
+    throw new Error("Task not found");
   }
   return res
     .status(200)
